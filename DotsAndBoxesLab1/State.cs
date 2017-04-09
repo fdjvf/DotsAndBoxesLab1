@@ -8,20 +8,34 @@ namespace DotsAndBoxesLab1
         public Box[,] GameState { get; set; }
         public Player Jugador { get; set; }
         public List<List<HorizontalLine>> Rows { get; set; }
-        public List<List<VerticalLine>> Columns { get ;  set; }
+        public List<List<VerticalLine>> Columns { get; set; }
         public int Size { get; set; }
 
 
         public State(int Size)
         {
-           this.Size = Size;
-            GameState = new Box[Size-1, Size-1];
+            this.Size = Size - 1;
+            GameState = CreateGameState();
             Rows = CreateRows();
             Columns = CreateColumns();
 
-     
+
+        }
+        private Box[,] CreateGameState()
+        {
+            var gamestate = new Box[Size, Size];
+
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    gamestate[i, j] = new Box();
+                }
             }
 
+            return gamestate;
+
+        }
         private List<List<HorizontalLine>> CreateRows()
         {
             var row = new List<List<HorizontalLine>>();
@@ -81,7 +95,7 @@ namespace DotsAndBoxesLab1
             throw new NotImplementedException();
         }
 
-     
+
 
 
         internal int CountEnemyCounter()
