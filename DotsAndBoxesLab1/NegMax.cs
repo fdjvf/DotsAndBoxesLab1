@@ -38,7 +38,7 @@ namespace DotsAndBoxesLab1
                 Beta = Math.Min(Beta, MaxValue(state, Alpha, Beta, Depth - 1));
                 if (Beta <= Alpha)
                 {
-                    return Alpha;
+                    return Beta;
                 }
             }
             return Beta;

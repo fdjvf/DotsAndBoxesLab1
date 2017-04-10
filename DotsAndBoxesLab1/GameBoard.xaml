@@ -4,13 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DotsAndBoxesLab1"
+     
         mc:Ignorable="d"
         Title="GameBoard" Height="300" Width="324.878">
     <Grid Margin="0,0,3.4,0.4">
         <Label Content="Jugador 1:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Jugador 2:" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="label" Content="Jugador 2:" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="ScoraJ1Lbl" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" FontWeight="Bold" SnapsToDevicePixels="True" Content="{Binding PuntajePlayer1, Mode=OneWay}"/>
         <Label x:Name="ScoreJ2Lbl" HorizontalAlignment="Left" Margin="265,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding PuntajePlayer2, Mode=OneWay}"/>
+        <Canvas Margin="33,36,40,10" Background="Transparent" Name="MyCanvas">
+            <ItemsControl x:Name="DotsCollect" HorizontalContentAlignment="Center" Height="219" Width="244" ItemsSource="{Binding ModelData, ElementName=window, IsAsync=True, Mode=TwoWay}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Background="Transparent" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:Dot}">
+                        <Ellipse   Fill="Black" Tag="{Binding TAG, Mode=OneWay}" 
+             Height="20" Width="20"  Stroke="{Binding StrokeColor, Mode=TwoWay, IsAsync=True}"  StrokeThickness="{Binding ThickStroke, Mode=TwoWay}" MouseLeftButtonDown="MyCircle_MouseLeftButtonDown"                            
+                                   >
+                        
+                        </Ellipse>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:DotLine}">
+                        <Line Stroke="{Binding StrokeColor,Mode=TwoWay, IsAsync=True}"
+                              StrokeThickness="2"
+                              X1="{Binding X1}"
+                              X2="{Binding X2}" 
+                              Y1="{Binding Y1}"  
+                              Y2="{Binding Y2}" >
+
+                        </Line>
+                    </DataTemplate>
+                </ItemsControl.Resources>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+
+        </Canvas>
+
 
     </Grid>
 </Window>

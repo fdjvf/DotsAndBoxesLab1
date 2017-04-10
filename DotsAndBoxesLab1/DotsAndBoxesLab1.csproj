@@ -55,12 +55,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Box.cs" />
+    <Compile Include="Dot.cs" />
     <Compile Include="GameBoard.xaml.cs">
       <DependentUpon>GameBoard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HorizontalLine.cs" />
+    <Compile Include="ItemsModel.cs" />
     <Compile Include="State.cs" />
-    <Compile Include="VerticalLine.cs" />
+    <Compile Include="DotLine.cs" />
     <Page Include="GameBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

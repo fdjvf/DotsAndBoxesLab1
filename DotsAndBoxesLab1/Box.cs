@@ -2,17 +2,17 @@
 {
     public class Box
     {
-        public HorizontalLine Up { get; set; }
-        public HorizontalLine Down { get; set; }
-        public VerticalLine Left { get; set; }
-        public VerticalLine Right { get; set; }
+        public DotLine Up { get; set; }
+        public DotLine Down { get; set; }
+        public DotLine Left { get; set; }
+        public DotLine Right { get; set; }
 
         public Box()
         {
-            Up = new HorizontalLine { IsDraw = false };
-            Down = new HorizontalLine { IsDraw = false };
-            Left = new VerticalLine { IsDraw = false };
-            Right = new VerticalLine { IsDraw = false };
+            Up = new DotLine { IsDraw = false };
+            Down = new DotLine { IsDraw = false };
+            Left = new DotLine { IsDraw = false };
+            Right = new DotLine { IsDraw = false };
         }
     }
 }
