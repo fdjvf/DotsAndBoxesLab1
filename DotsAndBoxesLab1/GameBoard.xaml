@@ -10,8 +10,8 @@
     <Grid Margin="0,0,3.4,0.4">
         <Label Content="Jugador 1:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="label" Content="Jugador 2:" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="ScoraJ1Lbl" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" FontWeight="Bold" SnapsToDevicePixels="True" Content="{Binding PuntajePlayer1, Mode=OneWay}"/>
-        <Label x:Name="ScoreJ2Lbl" HorizontalAlignment="Left" Margin="265,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding PuntajePlayer2, Mode=OneWay}"/>
+        <Label x:Name="ScoraJ1Lbl" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" FontWeight="Bold" SnapsToDevicePixels="True" Content="{Binding PuntajePlayer1, ElementName=window}"/>
+        <Label x:Name="ScoreJ2Lbl" HorizontalAlignment="Left" Margin="265,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding PuntajePlayer2, ElementName=window}"/>
         <Canvas Margin="33,36,40,10" Background="Transparent" Name="MyCanvas">
             <ItemsControl  HorizontalContentAlignment="Center" Height="219" Width="244" ItemsSource="{Binding gameState.ItemsBoxes, ElementName=window}">
                 <ItemsControl.ItemsPanel>

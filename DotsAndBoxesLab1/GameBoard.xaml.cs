@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -27,7 +28,7 @@ namespace DotsAndBoxesLab1
         {
             this.gameState = gameState;
             this.players = players;
-       
+            gameState.Jugador = false;//Max comienza
             ModelData = new CompositeCollection
             {
                 new CollectionContainer() { Collection = gameState.ItemsDots },
@@ -48,7 +49,7 @@ namespace DotsAndBoxesLab1
             set
             {
                 _PuntajePlayer1 = value;
-                RaisePropertyChanged("PuntajePlayer1");
+                RaisePropertyChanged();
             }
         }
         public int PuntajePlayer2
@@ -60,15 +61,15 @@ namespace DotsAndBoxesLab1
             set
             {
                 _PuntajePlayer2 = value;
-                RaisePropertyChanged("PuntajePlayer2");
+                RaisePropertyChanged();
             }
         }
 
 
 
-        protected void RaisePropertyChanged(string name)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
@@ -121,18 +122,29 @@ namespace DotsAndBoxesLab1
                     }
 
                     PreviousEl.Stroke = Brushes.Black;
-                    PreviousEl.StrokeThickness = 1;
+                    PreviousEl.StrokeThickness = 1;                    
 
+              
                     //Dibujar rectangulito
                     foreach (var item in gameState.ItemsBoxes)
                     {
                         if (item.IsComplete && !item.IsDrawn)
                         {
-                            item.StrokeColor = Brushes.Blue;
+                            if (gameState.Jugador)
+                            {
+                                item.StrokeColor = Brushes.Blue;
+                                PuntajePlayer1++;
+                         
+                            }else
+                            {
+                                item.StrokeColor = Brushes.Red;
+                                PuntajePlayer2++;
+                            }
                             item.IsDrawn = true;
-                       
+
                         }
                     }
+                    gameState.Jugador = !gameState.Jugador;
 
                 }
 

@@ -7,7 +7,7 @@ namespace DotsAndBoxesLab1
     public class State
     {
         public Box[,] GameState { get; set; }
-        public Player Jugador { get; set; }
+        public bool Jugador { get; set; }//0 Max 1 Min
         public List<List<DotLine>> Rows { get; set; } = new List<List<DotLine>>();
         public List<List<DotLine>> Columns { get; set; } = new List<List<DotLine>>();
         public List<Dot> ItemsDots { get; set; } = new List<Dot>();
