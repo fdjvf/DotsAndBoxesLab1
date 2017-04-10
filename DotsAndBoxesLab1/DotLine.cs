@@ -63,7 +63,7 @@ namespace DotsAndBoxesLab1
                 RaisePropertyChanged();
             }
         }
-
+        
 
 
         public event PropertyChangedEventHandler PropertyChanged;

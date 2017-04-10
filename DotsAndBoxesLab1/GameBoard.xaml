@@ -13,7 +13,28 @@
         <Label x:Name="ScoraJ1Lbl" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" FontWeight="Bold" SnapsToDevicePixels="True" Content="{Binding PuntajePlayer1, Mode=OneWay}"/>
         <Label x:Name="ScoreJ2Lbl" HorizontalAlignment="Left" Margin="265,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding PuntajePlayer2, Mode=OneWay}"/>
         <Canvas Margin="33,36,40,10" Background="Transparent" Name="MyCanvas">
-            <ItemsControl x:Name="DotsCollect" HorizontalContentAlignment="Center" Height="219" Width="244" ItemsSource="{Binding ModelData, ElementName=window, IsAsync=True, Mode=TwoWay}" >
+            <ItemsControl  HorizontalContentAlignment="Center" Height="219" Width="244" ItemsSource="{Binding gameState.ItemsBoxes, ElementName=window}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Background="Transparent" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Width="45" Height="45" Fill="{Binding StrokeColor}" >
+                        
+                        </Rectangle>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+           
+            <ItemsControl HorizontalContentAlignment="Center" Height="219" Width="244" ItemsSource="{Binding ModelData, ElementName=window, IsAsync=True, Mode=TwoWay}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas Background="Transparent" />
@@ -34,9 +55,10 @@
                               X2="{Binding X2}" 
                               Y1="{Binding Y1}"  
                               Y2="{Binding Y2}" >
-
                         </Line>
                     </DataTemplate>
+                    
+          
                 </ItemsControl.Resources>
                 <ItemsControl.ItemContainerStyle>
                     <Style>
@@ -45,7 +67,7 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
-
+    
         </Canvas>
 
 

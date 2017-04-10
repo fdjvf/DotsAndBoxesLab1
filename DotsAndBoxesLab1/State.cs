@@ -10,11 +10,12 @@ namespace DotsAndBoxesLab1
         public Player Jugador { get; set; }
         public List<List<DotLine>> Rows { get; set; } = new List<List<DotLine>>();
         public List<List<DotLine>> Columns { get; set; } = new List<List<DotLine>>();
-
         public List<Dot> ItemsDots { get; set; } = new List<Dot>();
         public List<DotLine> ItemsLine { get; set; } = new List<DotLine>();
+        public List<Box> ItemsBoxes { get; set; } = new List<Box>();
         public int Size { get; set; }
 
+        #region Initializing Game
         public void DotsModel()
         {
             int L = 0;
@@ -98,24 +99,30 @@ namespace DotsAndBoxesLab1
         {
             DotsModel();
             var gamestate = new Box[Size, Size];
-
+            ItemsBoxes = new List<Box>();
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
                 {
-
-
                     DotLine up = Rows[i][j];
                     DotLine down = Rows[i + 1][j];
-                    DotLine left = Columns[i][j];
-                    DotLine right = Columns[i + 1][j];
-                    gamestate[i, j] = new Box { Up = up, Left = left, Right = right, Down = down };
+
+
+                    DotLine left = Columns[j][i];
+                    DotLine right = Columns[j+1][i];
+
+                    gamestate[i, j] = new Box { Up = up, Left = left, Right = right, Down = down, X = up.X1, Y = up.Y1, StrokeColor = Brushes.Transparent };
+                    ItemsBoxes.Add(gamestate[i, j]);
                 }
             }
 
             return gamestate;
 
         }
+
+        #endregion
+
+
         /*
         private List<List<DotLine>> CreateRows()
         {
