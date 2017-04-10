@@ -10,7 +10,6 @@ namespace DotsAndBoxesLab1
         public DotLine Down { get; set; }
         public DotLine Left { get; set; }
         public DotLine Right { get; set; }
-
         
         public bool IsComplete { get { return Up.IsDraw && Down.IsDraw && Left.IsDraw && Right.IsDraw; } }
         public bool IsDrawn { get; set; } = false;

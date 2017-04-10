@@ -54,6 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BooleanBox.cs" />
+    <Compile Include="BooleanState.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Dot.cs" />
     <Compile Include="GameBoard.xaml.cs">

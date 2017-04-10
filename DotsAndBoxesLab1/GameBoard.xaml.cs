@@ -34,6 +34,7 @@ namespace DotsAndBoxesLab1
                 new CollectionContainer() { Collection = gameState.ItemsDots },
                 new CollectionContainer() { Collection = gameState.ItemsLine }
             };
+        
             InitializeComponent();
 
         }
@@ -81,6 +82,7 @@ namespace DotsAndBoxesLab1
         private void MyCircle_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Ellipse clickdot = ((Ellipse)sender);
+            gameState.GetSuccessors();
             if (!OnlyOneSelected)
             {
                 PreviousEl = clickdot;

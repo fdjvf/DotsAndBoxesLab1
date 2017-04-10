@@ -107,9 +107,8 @@ namespace DotsAndBoxesLab1
                     DotLine up = Rows[i][j];
                     DotLine down = Rows[i + 1][j];
 
-
                     DotLine left = Columns[j][i];
-                    DotLine right = Columns[j+1][i];
+                    DotLine right = Columns[j + 1][i];
 
                     gamestate[i, j] = new Box { Up = up, Left = left, Right = right, Down = down, X = up.X1, Y = up.Y1, StrokeColor = Brushes.Transparent };
                     ItemsBoxes.Add(gamestate[i, j]);
@@ -175,16 +174,112 @@ namespace DotsAndBoxesLab1
             return column;
         }
         */
-        internal List<State> GetSuccessors()
+        internal List<BooleanState> GetSuccessors()
         {
+            List<BooleanState> myStates = new List<BooleanState>();
+            int Estado = 0;
+            bool[,] rows = new bool[Size+1,Size];
+            bool[,] columns = new bool[Size+1, Size];
+            for (int i = 0; i < Size+1; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    rows[i, j] = Rows[i][j].IsDraw;
+                    columns[i, j] = Columns[i][j].IsDraw;
+
+                }
+            }
 
 
+            //Comenzamos por las filas (Cambio en una fila, un nuevo estado)
+            for (int i = 0; i < Size+1; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    if (!rows[i,j])//Si no hay linea dibujada, supondremos que se ha dibujado
+                    {
+                        Estado++;
+                        Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
+                        BooleanState te = new BooleanState();
+                        bool t = !rows[i, j];
+                        bool[,] rows2 = (bool[,])rows.Clone();
+                        rows2[i,j]=t;
+                        te.boolRow = rows2;
+                        te.boolColumn = (bool[,])columns.Clone();
+                        te.Player = Jugador;
+                        Console.WriteLine("Filas");
+                        PrintMatrix(rows2);
+                        Console.WriteLine("Colummnas");
+                        PrintMatrix(te.boolColumn);
+                        //Creando una linea 
+                        te.booleangame = CreateBoxMatrix(te);
+                        myStates.Add(te);
+                     
 
-            throw new NotImplementedException();
+
+                    }
+                    if (!columns[i, j])//Si no hay linea dibujada, supondremos que se ha dibujado
+                    {
+                        Estado++;
+                        Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
+                        BooleanState te = new BooleanState();
+                        bool t = !columns[i, j];
+                        bool[,] rows2 = (bool[,])rows.Clone();
+                        te.boolColumn = (bool[,])columns.Clone();
+                        te.boolColumn[i, j] = t;
+                        te.boolRow = rows2;
+                        te.Player = Jugador;
+               //         Console.WriteLine("Filas");
+            //            PrintMatrix(rows2);
+                //        Console.WriteLine("Colummnas");
+                 //       PrintMatrix(te.boolColumn);
+            //            Console.WriteLine("Cajas");
+                        te.booleangame = CreateBoxMatrix(te);
+              //          PrintMatrix(te.GetBoolBoxes());
+                        //Creando una linea 
+                    
+                        myStates.Add(te);
+                    
+                    }
+
+                }
+            }
+
+            return myStates;
         }
 
+        private BooleanBox[,] CreateBoxMatrix(BooleanState te)
+        {
+            BooleanBox[,] gmstate= new BooleanBox[Size, Size];
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    bool up = te.boolRow[i,j];
+                    bool down =te.boolRow[i + 1,j];
+                    bool left =te.boolColumn[j,i];
+                    bool right = te.boolColumn[j + 1,i];
+                    gmstate[i, j] = new BooleanBox { Up = up, Left = left, Right = right, Down = down };
+                }
+            }
+            return gmstate;
+        }
 
+        private void PrintMatrix(bool [,] arr)
+        {
+            int rowLength = arr.GetLength(0);
+            int colLength = arr.GetLength(1);
 
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    Console.Write(string.Format("{0} ", arr[i, j]));
+                }
+                Console.Write(Environment.NewLine + Environment.NewLine);
+            }
+     
+        }
 
         internal int CountEnemyCounter()
         {

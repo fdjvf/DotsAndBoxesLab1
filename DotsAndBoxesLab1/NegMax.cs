@@ -12,7 +12,8 @@ namespace DotsAndBoxesLab1
             {
                 return EvalHeuristic(state);
             }
-            foreach (State s in GetSuccessors(state))
+            List<BooleanState> Successors = state.GetSuccessors();
+            foreach (BooleanState s in Successors)
             {
                 Alpha = Math.Max(Alpha, MinValue(state, Alpha, Beta, Depth - 1));
                 if (Alpha>=Beta)
@@ -29,8 +30,8 @@ namespace DotsAndBoxesLab1
             {
                 return EvalHeuristic(state);
             }
-            List<State> Successors = state.GetSuccessors();
-            foreach (State s in Successors)
+            List<BooleanState> Successors = state.GetSuccessors();
+            foreach (BooleanState s in Successors)
             {
                 Beta = Math.Min(Beta, MaxValue(state, Alpha, Beta, Depth - 1));
                 if (Beta <= Alpha)
@@ -41,10 +42,7 @@ namespace DotsAndBoxesLab1
             return Beta;
         }
 
-        private List<State> GetSuccessors(State state)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public int EvalHeuristic(State state)
         {
