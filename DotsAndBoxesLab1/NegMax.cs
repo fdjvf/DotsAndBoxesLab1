@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace DotsAndBoxesLab1
 {
+
     class NegMax
     {
-        
-        public float MaxValue(State state, float Alpha,float Beta, int Depth)
+        public BooleanState Result { get; set; }
+        public float MaxValue(BooleanState state, float Alpha,float Beta, int Depth)
         {
             if (Depth==0)
             {
@@ -18,13 +19,15 @@ namespace DotsAndBoxesLab1
                 Alpha = Math.Max(Alpha, MinValue(state, Alpha, Beta, Depth - 1));
                 if (Alpha>=Beta)
                 {
+                    Result = state;
                     return Alpha;
                 }
             }
+         //   Result = state;
             return Alpha;
         }
 
-        private float MinValue(State state, float Alpha, float Beta, int Depth)
+        private float MinValue(BooleanState state, float Alpha, float Beta, int Depth)
         {
             if (Depth == 0)
             {
@@ -36,20 +39,23 @@ namespace DotsAndBoxesLab1
                 Beta = Math.Min(Beta, MaxValue(state, Alpha, Beta, Depth - 1));
                 if (Beta <= Alpha)
                 {
+                    Result = state;
                     return Beta;
                 }
             }
+         
             return Beta;
         }
 
 
 
-        public int EvalHeuristic(State state)
+        public int EvalHeuristic(BooleanState state)
         {
             //20x1+5x2-10x3
-            int X1 = state.CountBoxes();
-            int X2 = state.CountLs();
-            int X3 = state.CountEnemyCounter();
+            var temp = state.getData();
+            int X1 = temp.X1;
+            int X2 = temp.X2;
+            int X3 = temp.X3;
                 return 20 * X1 + 5 * X2 - 10 * X3;
         }            
 

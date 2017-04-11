@@ -16,7 +16,7 @@ namespace DotsAndBoxesLab1
     {
         public State gameState { get; set; }
         public CompositeCollection ModelData { get; set; }
-      
+
         private VsState players;
         private int _PuntajePlayer1;
         private int _PuntajePlayer2;
@@ -28,13 +28,13 @@ namespace DotsAndBoxesLab1
         {
             this.gameState = gameState;
             this.players = players;
-            gameState.Jugador = false;//Max comienza
+            gameState.Jugador = false;//Max comienza osea la persona 
             ModelData = new CompositeCollection
             {
                 new CollectionContainer() { Collection = gameState.ItemsDots },
                 new CollectionContainer() { Collection = gameState.ItemsLine }
             };
-        
+
             InitializeComponent();
 
         }
@@ -82,11 +82,19 @@ namespace DotsAndBoxesLab1
         private void MyCircle_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Ellipse clickdot = ((Ellipse)sender);
-            gameState.GetSuccessors();
+      
+
             if (!OnlyOneSelected)
             {
                 PreviousEl = clickdot;
-                clickdot.Stroke = Brushes.Blue;
+                if (gameState.Jugador)
+                {
+                    clickdot.Stroke = Brushes.Blue;
+                }
+                else
+                {
+                    clickdot.Stroke = Brushes.Red;
+                }              
                 clickdot.StrokeThickness = 3;
                 TAGPrevious = (TAGInfo)clickdot.Tag;
                 OnlyOneSelected = true;
@@ -106,47 +114,19 @@ namespace DotsAndBoxesLab1
                     double y1 = TAGPrevious.Y + 10;
                     double y2 = ((TAGInfo)clickdot.Tag).Y + 10;
                     DotLine linetodraw;
-                    if (TAGPrevious.TAG < ((TAGInfo)clickdot.Tag).TAG)
-                    {
-                        //Sirve para izquierda a derecha y arriba hacia abajo
-                        linetodraw = gameState.ItemsLine.Where(x => x.X1 == x1 && x.Y1 == y1 && x.X2 == x2 && x.Y2 == y2).SingleOrDefault();
-
-                    }
-                    else
-                    {
-                        linetodraw = gameState.ItemsLine.Where(x => x.X1 == x2 && x.Y1 == y2 && x.X2 == x1 && x.Y2 == y1).SingleOrDefault();
-                    }
-
-                    if (linetodraw != null)
-                    {
-                        linetodraw.StrokeColor = Brushes.Black;
-                        linetodraw.IsDraw = true;
-                    }
-
+                    //Sirve para izquierda a derecha y arriba hacia abajo
+                    linetodraw = gameState.ItemsLine.Where(x => (x.X1 == x1 && x.Y1 == y1 && x.X2 == x2 && x.Y2 == y2) ||
+                    (x.X1 == x2 && x.Y1 == y2 && x.X2 == x1 && x.Y2 == y1)).SingleOrDefault();
+                    linetodraw?.DrawLine();
                     PreviousEl.Stroke = Brushes.Black;
-                    PreviousEl.StrokeThickness = 1;                    
+                    PreviousEl.StrokeThickness = 1;
 
-              
+                    //Hacer jugada por parte de la maquina
+
                     //Dibujar rectangulito
-                    foreach (var item in gameState.ItemsBoxes)
-                    {
-                        if (item.IsComplete && !item.IsDrawn)
-                        {
-                            if (gameState.Jugador)
-                            {
-                                item.StrokeColor = Brushes.Blue;
-                                PuntajePlayer1++;
-                         
-                            }else
-                            {
-                                item.StrokeColor = Brushes.Red;
-                                PuntajePlayer2++;
-                            }
-                            item.IsDrawn = true;
 
-                        }
-                    }
-                    gameState.Jugador = !gameState.Jugador;
+                    DrawBox();
+
 
                 }
 
@@ -156,6 +136,38 @@ namespace DotsAndBoxesLab1
 
 
 
+
+        }
+        private (int NewScore,bool turno) HelperMethodDraw(Brush ColorStroke)
+        {
+            int Score = 0;
+            bool Continue = false;
+            foreach (var item in gameState.ItemsBoxes)
+            {
+                if (item.IsComplete && !item.IsDrawn)
+                {
+                    item.StrokeColor = ColorStroke;
+                    item.IsDrawn = true;
+                    Score++;
+                    Continue = true;
+                }
+            }
+            return (Score,Continue);
+        }
+        private void DrawBox()
+        {
+            if (gameState.Jugador)
+            {
+                var val = HelperMethodDraw(Brushes.Blue);
+                PuntajePlayer1 =PuntajePlayer1+val.NewScore;
+                gameState.Jugador = val.turno;
+            }
+            else
+            {
+                var val = HelperMethodDraw(Brushes.Red);
+                PuntajePlayer2 = PuntajePlayer2 + val.NewScore;
+                gameState.Jugador = !val.turno;
+            }
 
         }
         #endregion
