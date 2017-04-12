@@ -43,10 +43,8 @@
                 <ItemsControl.Resources>
                     <DataTemplate DataType="{x:Type local:Dot}">
                         <Ellipse   Fill="Black" Tag="{Binding TAG, Mode=OneWay}" 
-             Height="20" Width="20"  Stroke="{Binding StrokeColor, Mode=TwoWay, IsAsync=True}"  StrokeThickness="{Binding ThickStroke, Mode=TwoWay}" MouseLeftButtonDown="MyCircle_MouseLeftButtonDown"                            
-                                   >
-                        
-                        </Ellipse>
+             Height="20" Width="20"  Stroke="{Binding StrokeColor, Mode=TwoWay, IsAsync=True}"  StrokeThickness="{Binding ThickStroke, Mode=TwoWay}" MouseDown="MyCircle_MouseLeftButtonDown"                            
+                                   />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type local:DotLine}">
                         <Line Stroke="{Binding StrokeColor,Mode=TwoWay, IsAsync=True}"

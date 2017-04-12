@@ -4,26 +4,30 @@ using System.Collections.Generic;
 namespace DotsAndBoxesLab1
 {
 
-    class NegMax
+ public class NegMax
     {
         public BooleanState Result { get; set; }
-        public float MaxValue(BooleanState state, float Alpha,float Beta, int Depth)
+        private float my { get; set; } = -99999;
+        public float MaxValue(BooleanState state, float Alpha, float Beta, int Depth)
         {
-            if (Depth==0)
+            if (Depth == 0)
             {
                 return EvalHeuristic(state);
             }
             List<BooleanState> Successors = state.GetSuccessors();
             foreach (BooleanState s in Successors)
-            {
-                Alpha = Math.Max(Alpha, MinValue(state, Alpha, Beta, Depth - 1));
-                if (Alpha>=Beta)
+            {//Bug inside the successors list
+                Alpha = Math.Max(Alpha, MinValue(s, Alpha, Beta, Depth - 1));
+                if (Depth==4 && Alpha>=my)
                 {
-                    Result = state;
-                    return Alpha;
+                    Result = s;
+                    my = Alpha;
+                }              
+                if (Beta <= Alpha)
+                {
+                    break;
                 }
             }
-         //   Result = state;
             return Alpha;
         }
 
@@ -36,14 +40,13 @@ namespace DotsAndBoxesLab1
             List<BooleanState> Successors = state.GetSuccessors();
             foreach (BooleanState s in Successors)
             {
-                Beta = Math.Min(Beta, MaxValue(state, Alpha, Beta, Depth - 1));
+                Beta = Math.Min(Beta, MaxValue(s, Alpha, Beta, Depth - 1));        
                 if (Beta <= Alpha)
                 {
-                    Result = state;
-                    return Beta;
+                    break;
                 }
             }
-         
+
             return Beta;
         }
 
@@ -56,8 +59,8 @@ namespace DotsAndBoxesLab1
             int X1 = temp.X1;
             int X2 = temp.X2;
             int X3 = temp.X3;
-                return 20 * X1 + 5 * X2 - 10 * X3;
-        }            
+            return 20 * X1 + 5 * X2 - 10 * X3;
+        }
 
 
 

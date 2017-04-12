@@ -45,8 +45,8 @@ namespace DotsAndBoxesLab1
                 {
                     if (!BoolRow[i, j])//Si no hay linea dibujada, supondremos que se ha dibujado
                     {
-                        Estado++;
-                        Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
+            //            Estado++;
+            //            Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
                         BooleanState NewChild = new BooleanState();
                         bool t = !BoolRow[i, j];
                         bool[,] boolRow2 = (bool[,])BoolRow.Clone();
@@ -56,13 +56,13 @@ namespace DotsAndBoxesLab1
                         NewChild.BoolColumn = (bool[,])BoolColumn.Clone();
                         NewChild.Player = Player;
                         NewChild.CreateBoxMatrix();
-                        //                 NewChild.Print();
+                        //NewChild.Print();
                         myStates.Add(NewChild);
                     }
                     if (!BoolColumn[i, j])//Si no hay linea dibujada, supondremos que se ha dibujado
                     {
-                        Estado++;
-                        Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
+            //            Estado++;
+               //         Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
                         BooleanState NewChild = new BooleanState();
                         bool t = !BoolColumn[i, j];
                         bool[,] boolRow2 = (bool[,])BoolRow.Clone();
@@ -72,7 +72,7 @@ namespace DotsAndBoxesLab1
                         NewChild.Player = Player;
                         NewChild.Size = Size;
                         NewChild.CreateBoxMatrix();
-                        //            NewChild.Print();
+                        //NewChild.Print();
                         myStates.Add(NewChild);
 
                     }
@@ -115,6 +115,46 @@ namespace DotsAndBoxesLab1
     }
     public static class Helper
     {
+        public static void UpdateGame(this State st, BooleanState boolst)
+        {
+            var temp = st.GameState;
+
+            for (int i = 0; i < st.Size; i++)
+            {
+                for (int j = 0; j < st.Size; j++)
+                {
+                    var box = temp[i, j];
+                    var boxbool = boolst.BooleanGame[i, j];
+                    if ((!box.Down.IsDraw && boxbool.Down))
+                    {
+                        box.Down.DrawLine();
+                        break;
+                    }
+                    else if ((!box.Up.IsDraw && boxbool.Up))
+                    {
+
+                        box.Up.DrawLine();
+                        break;
+                    }
+                    else if ((!box.Left.IsDraw && boxbool.Left))
+                    {
+                        box.Left.DrawLine();
+                        break;
+
+                    }
+                    else if ((!box.Right.IsDraw && boxbool.Right))
+                    {
+
+                        box.Right.DrawLine();
+                        break;
+                    }
+
+
+
+
+                }
+            }
+        }
         public static void DrawLine(this DotLine linetodraw)
         {
             linetodraw.StrokeColor = Brushes.Black;
@@ -141,7 +181,6 @@ namespace DotsAndBoxesLab1
         {
             Console.WriteLine("Filas");
             te.BoolRow.PrintMatrix();
-            PrintMatrix(te.BoolRow);
             Console.WriteLine("Colummnas");
             te.BoolColumn.PrintMatrix();
             Console.WriteLine("Cajas");

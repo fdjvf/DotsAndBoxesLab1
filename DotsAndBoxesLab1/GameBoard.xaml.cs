@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -16,6 +17,8 @@ namespace DotsAndBoxesLab1
     {
         public State gameState { get; set; }
         public CompositeCollection ModelData { get; set; }
+        public NegMax Alg { get; set; } = new NegMax();
+
 
         private VsState players;
         private int _PuntajePlayer1;
@@ -82,19 +85,17 @@ namespace DotsAndBoxesLab1
         private void MyCircle_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Ellipse clickdot = ((Ellipse)sender);
-      
-
             if (!OnlyOneSelected)
             {
                 PreviousEl = clickdot;
-                if (gameState.Jugador)
+                if (!gameState.Jugador)//0 Max
                 {
                     clickdot.Stroke = Brushes.Blue;
                 }
                 else
                 {
-                    clickdot.Stroke = Brushes.Red;
-                }              
+                    clickdot.Stroke = Brushes.Red;//Min Rojo
+                }
                 clickdot.StrokeThickness = 3;
                 TAGPrevious = (TAGInfo)clickdot.Tag;
                 OnlyOneSelected = true;
@@ -121,11 +122,23 @@ namespace DotsAndBoxesLab1
                     PreviousEl.Stroke = Brushes.Black;
                     PreviousEl.StrokeThickness = 1;
 
-                    //Hacer jugada por parte de la maquina
+
 
                     //Dibujar rectangulito
-
+                    Thread.Sleep(10);
                     DrawBox();
+                    while (gameState.Jugador)
+                    {
+                        //Hacer jugada por parte de la maquina
+                
+                        var tem = Alg.MaxValue(gameState.BooleanRepresentation(), float.MinValue + 1, float.MaxValue - 1, 4);
+                        BooleanState t = Alg.Result;
+                        gameState.UpdateGame(t);
+                        DrawBox();
+                    }
+              
+
+
 
 
                 }
@@ -138,7 +151,7 @@ namespace DotsAndBoxesLab1
 
 
         }
-        private (int NewScore,bool turno) HelperMethodDraw(Brush ColorStroke)
+        private (int NewScore, bool turno) HelperMethodDraw(Brush ColorStroke)
         {
             int Score = 0;
             bool Continue = false;
@@ -152,21 +165,21 @@ namespace DotsAndBoxesLab1
                     Continue = true;
                 }
             }
-            return (Score,Continue);
+            return (Score, Continue);
         }
         private void DrawBox()
         {
-            if (gameState.Jugador)
+            if (!gameState.Jugador)
             {
                 var val = HelperMethodDraw(Brushes.Blue);
-                PuntajePlayer1 =PuntajePlayer1+val.NewScore;
-                gameState.Jugador = val.turno;
+                PuntajePlayer1 = PuntajePlayer1 + val.NewScore;
+                gameState.Jugador = !val.turno;
             }
             else
             {
                 var val = HelperMethodDraw(Brushes.Red);
                 PuntajePlayer2 = PuntajePlayer2 + val.NewScore;
-                gameState.Jugador = !val.turno;
+                gameState.Jugador = val.turno;
             }
 
         }
