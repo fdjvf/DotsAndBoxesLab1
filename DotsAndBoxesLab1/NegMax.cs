@@ -59,7 +59,7 @@ namespace DotsAndBoxesLab1
             int X1 = temp.X1;
             int X2 = temp.X2;
             int X3 = temp.X3;
-            return 20 * X1 + 5 * X2 - 10 * X3;
+            return 30 * X1 + 5 * X2 - 10 * X3;
         }
 
 

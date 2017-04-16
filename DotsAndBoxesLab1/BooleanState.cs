@@ -59,7 +59,7 @@ namespace DotsAndBoxesLab1
                         //NewChild.Print();
                         myStates.Add(NewChild);
                     }
-                    if (!BoolColumn[i, j])//Si no hay linea dibujada, supondremos que se ha dibujado
+       if (!BoolColumn[i, j])//Si no hay linea dibujada, supondremos que se ha dibujado
                     {
             //            Estado++;
                //         Console.WriteLine("--------------------------------------------------------------Estado: " + Estado);
@@ -76,7 +76,7 @@ namespace DotsAndBoxesLab1
                         myStates.Add(NewChild);
 
                     }
-
+                  
                 }
             }
 
